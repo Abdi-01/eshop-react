@@ -32,7 +32,51 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.main-color {
+  color: #397ef6;
+}
+
+.muted-color {
+  color: #bdc3c7;
+}
+
+#banner {
+  background-image: url(https://images.wallpaperscraft.com/image/single/living_room_furniture_eg_blue_tone_wallpaper_80113_1920x1080.jpg);
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#regispage {
+  background-image: url(https://images.wallpaperscraft.com/image/single/living_room_furniture_eg_blue_tone_wallpaper_80113_1920x1080.jpg);
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-shadow {
+  background-color: #bdc3c78f;
+}
+
+.bg-gradient {
+  background: rgb(255,255,255) !important;
+  background: linear-gradient(0deg, rgba(255,255,255,1) 12%, rgba(57,126,246,1) 42%) !important;
+}
+
+@media only screen and (max-width:500px) {
+  .position-reset {
+    position: relative !important;
+    padding-top: 20vh;
+  }
+}
+
+.top-25{
+  top:25%;
 }
