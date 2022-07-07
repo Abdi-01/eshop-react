@@ -15,7 +15,7 @@ import {
     ModalHeader,
     ModalFooter,
     ModalBody,
-    ModalCloseButton, Image, useToast
+    ModalCloseButton, Image, useToast, ButtonGroup
 } from '@chakra-ui/react';
 import { AiFillDelete, AiFillEdit, AiFillPlusCircle } from "react-icons/ai";
 import Axios from 'axios';
@@ -25,6 +25,7 @@ import { API_URL } from '../../helper';
 const ProductsAdmin = () => {
     const [data, setData] = React.useState([]);
     const [toggle, setToggle] = React.useState(false); // untuk membuka/menutup modal
+    const [toggleDelete, setToggleDelete] = React.useState(false);
     const [img, setImg] = React.useState('');
     const [name, setName] = React.useState('');
     const [description, setDescription] = React.useState('');
@@ -32,6 +33,7 @@ const ProductsAdmin = () => {
     const [category, setCategory] = React.useState('');
     const [price, setPrice] = React.useState(0);
     const [stock, setStock] = React.useState(0);
+    const [selectedData, setSelectedData] = React.useState(null);
 
     const toast = useToast();
 
@@ -60,7 +62,10 @@ const ProductsAdmin = () => {
                 <Td>
                     <div className='btn-group'>
                         <button className='btn btn-warning'><AiFillEdit size={24} /></button>
-                        <button className='btn btn-outline-danger'><AiFillDelete size={24} /></button>
+                        <button className='btn btn-outline-danger' type='button' onClick={() => {
+                            setSelectedData(val);
+                            setToggleDelete(!toggleDelete);
+                        }}><AiFillDelete size={24} /></button>
                     </div>
                 </Td>
             </Tr>
@@ -175,6 +180,22 @@ const ProductsAdmin = () => {
             </ModalContent>
         </Modal>
 
+        {
+            selectedData ?
+                <Modal isOpen={toggleDelete} onClose={() => setToggleDelete(!toggleDelete)}>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>Are you sure to delete <span className='fw-bold main-color'> {selectedData.name}</span>?</ModalHeader>
+                        <ModalFooter>
+                            <ButtonGroup>
+                                <Button type='button' variant='outline' colorScheme='yellow'>No</Button>
+                                <Button type='button' variant='outline' colorScheme='teal'>Yes</Button>
+                            </ButtonGroup>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+                : null
+        }
         <div className='mt-3'>
             <TableContainer>
                 <Table variant='simple'>
