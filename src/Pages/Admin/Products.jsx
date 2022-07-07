@@ -15,7 +15,7 @@ import {
     ModalHeader,
     ModalFooter,
     ModalBody,
-    ModalCloseButton, Image
+    ModalCloseButton, Image, useToast
 } from '@chakra-ui/react';
 import { AiFillDelete, AiFillEdit, AiFillPlusCircle } from "react-icons/ai";
 import Axios from 'axios';
@@ -33,6 +33,7 @@ const ProductsAdmin = () => {
     const [price, setPrice] = React.useState(0);
     const [stock, setStock] = React.useState(0);
 
+    const toast = useToast();
 
     const getData = () => {
         Axios.get(API_URL + "/products")
@@ -66,7 +67,46 @@ const ProductsAdmin = () => {
         })
     }
 
-    console.log(img, name, description, brand, category, price, stock)
+    const onSubmit = () => {
+        Axios.post(API_URL + "/products", {
+            name,
+            description,
+            brand,
+            category,
+            price,
+            stock,
+            images: img
+        }).then((res) => {
+            if (res.data.id) {
+                toast({
+                    title: "Product submitted",
+                    description: `${name} your new product`,
+                    status: 'success',
+                    duration: 2000,
+                    isClosable: true
+                })
+                setToggle(!toggle);
+                setImg('');
+                setName('');
+                setBrand('');
+                setCategory('');
+                setDescription('');
+                setStock('');
+                setPrice('');
+                getData();
+            }
+        }).catch((err) => {
+            console.log(err);
+            toast({
+                title: "Error submitted",
+                description: err.message,
+                status: 'error',
+                duration: 2000,
+                isClosable: true
+            })
+        })
+    }
+
     return <div className='container' style={{
         position: "relative",
         top: "7vh",
@@ -128,13 +168,13 @@ const ProductsAdmin = () => {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button colorScheme='teal'>
+                    <Button colorScheme='teal' type='button' onClick={onSubmit}>
                         Submit
                     </Button>
                 </ModalFooter>
             </ModalContent>
         </Modal>
-        
+
         <div className='mt-3'>
             <TableContainer>
                 <Table variant='simple'>
