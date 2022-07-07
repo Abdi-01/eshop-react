@@ -35,6 +35,14 @@ const ProductsAdmin = () => {
     const [stock, setStock] = React.useState(0);
     const [selectedData, setSelectedData] = React.useState(null);
 
+    // State for form filter
+    const [filterData, setFilterData] = React.useState({
+        name: '',
+        brand: '',
+        category: ''
+    });
+
+
     const toast = useToast();
 
     const getData = () => {
@@ -137,11 +145,11 @@ const ProductsAdmin = () => {
             })
     }
 
-    return <div className='container' style={{
-        position: "relative",
-        top: "7vh",
-        minHeight: "100vh"
-    }}>
+    const onFilter =()=>{
+        console.log(filterData)
+    }
+
+    return <div className='container main-page'>
         <div className='d-flex justify-content-between align-items-center py-4'>
             <div>
                 <Text fontSize="4xl">Manage your products</Text>
@@ -234,6 +242,40 @@ const ProductsAdmin = () => {
                 </Modal>
                 : null
         }
+        <div className='card shadow-sm rounded'>
+            <div className='card-body'>
+                <Text fontSize="xl" className='fw-bold muted-color mb-2'>Filter</Text>
+                <div className='row'>
+                    <div className='col-12 col-sm-4 col-md-3 my-2 my-md-0'>
+                        <input onChange={(e) => setFilterData({ ...filterData, name: e.target.value })} className='form-control' type='text' placeholder='Name' />
+                    </div>
+                    <div className='col-12 col-sm-4 col-md-3 my-2 my-md-0'>
+                        <select className='form-select' onChange={(e) => setFilterData({ ...filterData, brand: e.target.value })}>
+                            <option selected>Select brand</option>
+                            <option value='IKEA'>IKEA</option>
+                            <option value='ACE'>ACE</option>
+                            <option value='Mr. DIY'>Mr. DIY</option>
+                        </select>
+                    </div>
+                    <div className='col-12 col-sm-4 col-md-3 my-2 my-md-0'>
+                        <select className='form-select' onChange={(e) => setFilterData({ ...filterData, category: e.target.value })}>
+                            <option selected>Select category</option>
+                            <option value='Livingroom'>Livingroom</option>
+                            <option value='Bedroom'>Bedroom</option>
+                            <option value='Kitchen'>Kitchen</option>
+                        </select>
+                    </div>
+                    <div className='col-12 col-sm-4 col-md-3 my-2 my-md-0 d-flex justify-content-evenly'>
+                        <Button colorScheme='teal' type='button' onClick={onFilter}>
+                            Filter
+                        </Button>
+                        <Button colorScheme='yellow' variant='outline'>
+                            Reset
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div className='mt-3'>
             <TableContainer>
                 <Table variant='simple'>
