@@ -112,6 +112,31 @@ const ProductsAdmin = () => {
         })
     }
 
+    const onDelete = () => {
+        Axios.delete(API_URL + `/products/${selectedData.id}`)
+            .then((res) => {
+                toast({
+                    title: "Product deleted",
+                    description: `${name} success delete`,
+                    status: 'success',
+                    duration: 2000,
+                    isClosable: true
+                })
+                getData();
+                setSelectedData(null);
+                setToggleDelete(!toggleDelete);
+            }).catch(err => {
+                console.log(err);
+                toast({
+                    title: "Error deleted",
+                    description: err.message,
+                    status: 'error',
+                    duration: 2000,
+                    isClosable: true
+                })
+            })
+    }
+
     return <div className='container' style={{
         position: "relative",
         top: "7vh",
@@ -188,8 +213,21 @@ const ProductsAdmin = () => {
                         <ModalHeader>Are you sure to delete <span className='fw-bold main-color'> {selectedData.name}</span>?</ModalHeader>
                         <ModalFooter>
                             <ButtonGroup>
-                                <Button type='button' variant='outline' colorScheme='yellow'>No</Button>
-                                <Button type='button' variant='outline' colorScheme='teal'>Yes</Button>
+                                <Button type='button' variant='outline'
+                                    onClick={() => {
+                                        setSelectedData(null);
+                                        setToggleDelete(!toggleDelete);
+                                    }}
+                                    colorScheme='yellow'
+                                >
+                                    No
+                                </Button>
+                                <Button type='button' variant='outline'
+                                    onClick={onDelete}
+                                    colorScheme='teal'
+                                >
+                                    Yes
+                                </Button>
                             </ButtonGroup>
                         </ModalFooter>
                     </ModalContent>
