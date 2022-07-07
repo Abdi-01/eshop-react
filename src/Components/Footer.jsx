@@ -5,11 +5,10 @@ const FooterComponent = (props) => {
 
     const navigate = useNavigate();
 
-    return <div className="p-5 shadow"
+    return <div className="p-5 shadow-lg w-100 position-absolute top-100 bg-light"
         style={{
             borderTopLeftRadius: "25px",
-            borderTopRightRadius: "25px",
-            marginTop: "-25px"
+            borderTopRightRadius: "25px"
         }}
     >
         <div className='container d-none d-md-flex flex-wrap justify-content-between'>

@@ -3,12 +3,17 @@ import { useNavigate } from 'react-router-dom';
 
 const NavbarComponent = (props) => {
 
+    const { pathname } = window.location;
     const navigate = useNavigate();
 
-    return <div className='navbar navbar-expand-lg navbar-dark bg-transparent'>
+    console.log(pathname)
+    return <div
+        className={`navbar navbar-expand-lg ${pathname.includes('/admin') ?
+            'navbar-light' :
+            'navbar-dark bg-transparent'} `}>
         <div className='container '>
             <span className='navbar-brand btn' onClick={() => navigate('/')}>
-                <span className='fw-bold text-white'>
+                <span className='fw-bold'>
                     E-SHOP
                 </span>
                 <span className='lead ms-1 '>
