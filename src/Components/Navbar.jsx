@@ -8,7 +8,7 @@ const NavbarComponent = (props) => {
 
     console.log(pathname)
     return <div
-        className={`navbar navbar-expand-lg ${pathname.includes('/admin') ?
+        className={`navbar navbar-expand-lg ${pathname!='/' || pathname!='/register'?
             'navbar-light' :
             'navbar-dark bg-transparent'} `}>
         <div className='container '>
@@ -33,7 +33,7 @@ const NavbarComponent = (props) => {
             <div className='collapse navbar-collapse' id='eshopNavbar'>
                 <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
                     <li>
-                        <span className='nav-link active'>
+                        <span className='nav-link active btn' onClick={() => navigate('/products')}>
                             Product
                         </span>
                     </li>

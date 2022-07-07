@@ -66,8 +66,8 @@
 }
 
 .bg-gradient {
-  background: rgb(255,255,255) !important;
-  background: linear-gradient(0deg, rgba(255,255,255,1) 12%, rgba(57,126,246,1) 42%) !important;
+  background: rgb(255, 255, 255) !important;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 1) 12%, rgba(57, 126, 246, 1) 42%) !important;
 }
 
 @media only screen and (max-width:500px) {
@@ -77,6 +77,12 @@
   }
 }
 
-.top-25{
-  top:25%;
+.top-25 {
+  top: 25%;
+}
+
+.main-page {
+  position: relative;
+  top: 7vh;
+  min-height: 100vh;
 }

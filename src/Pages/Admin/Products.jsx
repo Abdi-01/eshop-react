@@ -145,8 +145,20 @@ const ProductsAdmin = () => {
             })
     }
 
-    const onFilter =()=>{
+    const onFilter = () => {
         console.log(filterData)
+        let query = [];
+        for (let prop in filterData) {
+            if (filterData[prop] && filterData[prop] != 'null') {
+                query.push(`${prop}=${filterData[prop]}`)
+            }
+        }
+        Axios.get(API_URL + `/products?${query.join('&')}`)
+            .then(res => {
+                setData(res.data);
+            }).catch(err => {
+                console.log(err);
+            })
     }
 
     return <div className='container main-page'>
@@ -251,7 +263,7 @@ const ProductsAdmin = () => {
                     </div>
                     <div className='col-12 col-sm-4 col-md-3 my-2 my-md-0'>
                         <select className='form-select' onChange={(e) => setFilterData({ ...filterData, brand: e.target.value })}>
-                            <option selected>Select brand</option>
+                            <option selected value="null">Select brand</option>
                             <option value='IKEA'>IKEA</option>
                             <option value='ACE'>ACE</option>
                             <option value='Mr. DIY'>Mr. DIY</option>
@@ -259,7 +271,7 @@ const ProductsAdmin = () => {
                     </div>
                     <div className='col-12 col-sm-4 col-md-3 my-2 my-md-0'>
                         <select className='form-select' onChange={(e) => setFilterData({ ...filterData, category: e.target.value })}>
-                            <option selected>Select category</option>
+                            <option selected value="null">Select category</option>
                             <option value='Livingroom'>Livingroom</option>
                             <option value='Bedroom'>Bedroom</option>
                             <option value='Kitchen'>Kitchen</option>
