@@ -18,6 +18,7 @@ const LoginPage = () => {
         Axios.get(API_URL + `/users?email=${email}&password=${password}`)
             .then((res) => {
                 console.log(res.data);
+                localStorage.setItem('eshopLog', res.data[0].id);
                 dispatch(loginAction(res.data[0]));
                 navigate('/', { replace: true });
             }).catch((err) => {

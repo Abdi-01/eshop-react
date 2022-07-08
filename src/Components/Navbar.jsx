@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Text } from '@chakra-ui/react';
+import { Text, Avatar, AvatarBadge } from '@chakra-ui/react';
 
 const NavbarComponent = (props) => {
 
@@ -26,7 +26,7 @@ const NavbarComponent = (props) => {
                     E-SHOP
                 </span>
                 <span className='lead ms-1 '>
-                    | Furniture {props.kirimDong}
+                    | Furniture
                 </span>
             </span>
             <button className='navbar-toggler'
@@ -51,7 +51,12 @@ const NavbarComponent = (props) => {
                     {
                         username ?
                             <div>
-                                <Text className='fw-bold' fontSize='xl'>{username}</Text>
+                                <div className='d-flex align-items-center'>
+                                    <Text className='text-white me-3' fontStyle='italic' >{status}</Text>
+                                    <Avatar name={username} size='md'>
+                                        <AvatarBadge boxSize='1em' bg='green.500' />
+                                    </Avatar>
+                                </div>
                             </div>
                             :
                             <div className='btn-group'>
