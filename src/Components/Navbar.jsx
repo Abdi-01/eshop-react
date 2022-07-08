@@ -1,23 +1,32 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Text } from '@chakra-ui/react';
 
 const NavbarComponent = (props) => {
 
     const { pathname } = window.location;
     const navigate = useNavigate();
 
-    console.log(pathname)
+    const { username, status, role } = useSelector((state) => {
+        return {
+            username: state.userReducer.username,
+            status: state.userReducer.status,
+            role: state.userReducer.role,
+        }
+    });
+
     return <div
-        className={`navbar navbar-expand-lg ${pathname!='/' || pathname!='/register'?
+        className={`navbar navbar-expand-lg ${pathname != '/' || pathname != '/register' ?
             'navbar-light' :
             'navbar-dark bg-transparent'} `}>
         <div className='container '>
-            <span className='navbar-brand btn' onClick={() => navigate('/')}>
+            <span className={`navbar-brand btn ${pathname == '/' ? 'text-white' : ''}`} onClick={() => navigate('/')}>
                 <span className='fw-bold'>
                     E-SHOP
                 </span>
                 <span className='lead ms-1 '>
-                    | Furniture
+                    | Furniture {props.kirimDong}
                 </span>
             </span>
             <button className='navbar-toggler'
@@ -39,14 +48,25 @@ const NavbarComponent = (props) => {
                     </li>
                 </ul>
                 <div className='d-flex'>
-                    <div className='btn-group'>
-                        <button className='btn btn-outline-light'>Sign In</button>
-                        <button className='btn btn-primary'
-                            type='button'
-                            onClick={() => navigate('/register')}>
-                            Sign Up
-                        </button>
-                    </div>
+                    {
+                        username ?
+                            <div>
+                                <Text className='fw-bold' fontSize='xl'>{username}</Text>
+                            </div>
+                            :
+                            <div className='btn-group'>
+                                <button className='btn btn-outline-light' type='button'
+                                    onClick={() => navigate('/login')}
+                                >
+                                    Sign In
+                                </button>
+                                <button className='btn btn-primary'
+                                    type='button'
+                                    onClick={() => navigate('/register')}>
+                                    Sign Up
+                                </button>
+                            </div>
+                    }
                 </div>
             </div>
         </div>

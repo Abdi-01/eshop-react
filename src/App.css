@@ -54,7 +54,7 @@
   background-size: cover;
 }
 
-#regispage {
+#regispage, #loginpage {
   background-image: url(https://images.wallpaperscraft.com/image/single/living_room_furniture_eg_blue_tone_wallpaper_80113_1920x1080.jpg);
   height: 100vh;
   background-repeat: no-repeat;
@@ -85,4 +85,8 @@
   position: relative;
   top: 7vh;
   min-height: 100vh;
+}
+
+.navbar-light{
+  color: white !important;
 }
