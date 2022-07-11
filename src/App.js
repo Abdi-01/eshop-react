@@ -10,15 +10,22 @@ import Products from './Pages/Products';
 import LoginPage from './Pages/LoginPage';
 import Axios from 'axios';
 import { API_URL } from './helper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginAction } from './actions/userAction';
 import DetailPage from './Pages/Detail';
+import NotFoundPage from './Pages/NotFoundPage';
 
 function App() {
 
   const [loading, setLoading] = React.useState(true);
 
   const dispatch = useDispatch();
+
+  const { role } = useSelector(({ userReducer }) => {
+    return {
+      role: userReducer.role
+    }
+  })
 
   const keepLogin = () => {
     let eshopLog = localStorage.getItem('eshopLog');
@@ -50,11 +57,25 @@ function App() {
       </div>
       <Routes>
         <Route path='/' element={<LandingPage />} />
-        <Route path='/register' element={<RegisPage />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/products/admin' element={<ProductsAdmin />} />
+        {
+          role ?
+           null :
+            <>
+              <Route path='/register' element={<RegisPage />} />
+              <Route path='/login' element={<LoginPage />} />
+            </>
+        }
+        {
+          role == 'Admin' ?
+            <>
+              <Route path='/products/admin' element={<ProductsAdmin />} />
+            </>
+            :
+            null
+        }
         <Route path='/products' element={<Products />} />
         <Route path='/products/detail' element={<DetailPage />} />
+        <Route path='*' element={<NotFoundPage />} />
       </Routes>
       <FooterComponent />
     </div>
