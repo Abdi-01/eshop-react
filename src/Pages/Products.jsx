@@ -27,7 +27,7 @@ const Products = (props) => {
     const printData = () => {
         return data.map((val, idx) => {
             return <div className='col-12 col-sm-6 col-lg-4 ' key={val.id} 
-            onClick={() => navigate('/products/detail', {
+            onClick={() => navigate(`/products/detail?id=${val.id}`, {
                 state: val
             })}>
                 <div className='card border-0 shadow rounded-3 btn p-0'>

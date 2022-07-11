@@ -2,12 +2,28 @@ import React from 'react';
 import { Image, Text } from '@chakra-ui/react';
 import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai';
 import { useLocation } from 'react-router-dom';
+import { API_URL } from '../helper';
+import Axios from 'axios';
 
 const DetailPage = (props) => {
 
-    const { state } = useLocation();
+    const { state, search } = useLocation();
 
-    console.log('DATA DARI PRODUCTS PAGE', state)
+    // console.log('DATA DARI PRODUCTS PAGE', state)
+    console.log('DATA DARI URL PRODUCT DETAIL PAGE', search)
+
+    const getDetail = () => {
+        Axios.get(API_URL + `/products${search}`)
+            .then((res) => {
+                console.log(res.data)
+            }).catch((err) => {
+                console.log(err);
+            })
+    }
+
+    React.useEffect(()=>{
+        getDetail()
+    },[]);
 
     return <div className='container main-page p-5'>
         <div className='row'>
@@ -30,7 +46,7 @@ const DetailPage = (props) => {
                 <div className="my-3">
                     <label className='muted-color'>Description</label>
                     <p style={{ textAlign: 'justify' }}>
-                    {state.description}
+                        {state.description}
                     </p>
                 </div>
                 <Text fontSize={['4xl', '6xl']} className='text-muted fw-bold'>Rp. {state.price.toLocaleString()}</Text>
