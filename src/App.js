@@ -66,12 +66,10 @@ function App() {
             </>
         }
         {
-          role == 'Admin' ?
+          role == 'Admin' &&
             <>
               <Route path='/products/admin' element={<ProductsAdmin />} />
             </>
-            :
-            null
         }
         <Route path='/products' element={<Products />} />
         <Route path='/products/detail' element={<DetailPage />} />
