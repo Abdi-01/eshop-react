@@ -1,12 +1,22 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { Text, Avatar, AvatarBadge } from '@chakra-ui/react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+    Text, Avatar, AvatarBadge, Spinner, Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuDivider
+} from '@chakra-ui/react';
+import { AiOutlineLogout } from 'react-icons/ai';
+
+import { logoutAction } from '../actions/userAction';
 
 const NavbarComponent = (props) => {
 
     const { pathname } = window.location;
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const { username, status, role } = useSelector((state) => {
         return {
@@ -49,28 +59,48 @@ const NavbarComponent = (props) => {
                 </ul>
                 <div className='d-flex'>
                     {
-                        username ?
-                            <div>
-                                <div className='d-flex align-items-center'>
-                                    <Text className='text-white me-3' fontStyle='italic' >{status}</Text>
-                                    <Avatar name={username} size='md'>
-                                        <AvatarBadge boxSize='1em' bg='green.500' />
-                                    </Avatar>
+                        props.loading ? <Spinner /> :
+                            username && !props.loading ?
+                                <Menu>
+                                    <MenuButton>
+                                        <div className='d-flex align-items-center'>
+                                            <Text className='text-white me-3' fontStyle='italic' >{status}</Text>
+                                            <Avatar name={username} size='md'>
+                                                <AvatarBadge boxSize='1em' bg='green.500' />
+                                            </Avatar>
+                                        </div>
+                                    </MenuButton>
+                                    <MenuList textColor='black'>
+                                        {
+                                            role == 'Admin' ?
+                                                <div>
+                                                    <MenuItem onClick={() => navigate('/products/admin')}>Products Management</MenuItem>
+                                                    <MenuItem>Transactions Management</MenuItem>
+                                                </div>
+                                                :
+                                                <div>
+                                                    <MenuItem>Cart</MenuItem>
+                                                    <MenuItem>Profile</MenuItem>
+                                                </div>
+
+                                        }
+                                        <MenuDivider />
+                                        <MenuItem onClick={() => dispatch(logoutAction())}>Signout<AiOutlineLogout className='ms-2' /></MenuItem>
+                                    </MenuList>
+                                </Menu>
+                                :
+                                <div className='btn-group'>
+                                    <button className='btn btn-outline-light' type='button'
+                                        onClick={() => navigate('/login')}
+                                    >
+                                        Sign In
+                                    </button>
+                                    <button className='btn btn-primary'
+                                        type='button'
+                                        onClick={() => navigate('/register')}>
+                                        Sign Up
+                                    </button>
                                 </div>
-                            </div>
-                            :
-                            <div className='btn-group'>
-                                <button className='btn btn-outline-light' type='button'
-                                    onClick={() => navigate('/login')}
-                                >
-                                    Sign In
-                                </button>
-                                <button className='btn btn-primary'
-                                    type='button'
-                                    onClick={() => navigate('/register')}>
-                                    Sign Up
-                                </button>
-                            </div>
                     }
                 </div>
             </div>

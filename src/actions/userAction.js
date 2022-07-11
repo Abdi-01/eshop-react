@@ -7,6 +7,7 @@ export const loginAction = (data) => {
 }
 
 export const logoutAction = () => {
+    localStorage.removeItem('eshopLog')
     return {
         type: "LOGOUT_SUCCESS"
     }

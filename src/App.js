@@ -12,8 +12,11 @@ import Axios from 'axios';
 import { API_URL } from './helper';
 import { useDispatch } from 'react-redux';
 import { loginAction } from './actions/userAction';
+import DetailPage from './Pages/Detail';
 
 function App() {
+
+  const [loading, setLoading] = React.useState(true);
 
   const dispatch = useDispatch();
 
@@ -24,11 +27,15 @@ function App() {
         .then((res) => {
           if (res.data.length > 0) {
             localStorage.setItem('eshopLog', res.data[0].id)
+            setLoading(false);
             dispatch(loginAction(res.data[0]));
           }
         }).catch((err) => {
           console.log(err);
+          setLoading(false);
         })
+    } else {
+      setLoading(false);
     }
   }
 
@@ -39,7 +46,7 @@ function App() {
   return (
     <div >
       <div style={{ position: "absolute" }} className="w-100">
-        <NavbarComponent />
+        <NavbarComponent loading={loading} />
       </div>
       <Routes>
         <Route path='/' element={<LandingPage />} />
@@ -47,6 +54,7 @@ function App() {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/products/admin' element={<ProductsAdmin />} />
         <Route path='/products' element={<Products />} />
+        <Route path='/products/detail' element={<DetailPage />} />
       </Routes>
       <FooterComponent />
     </div>
