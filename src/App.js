@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginAction } from './actions/userAction';
 import DetailPage from './Pages/Detail';
 import NotFoundPage from './Pages/NotFoundPage';
+import CartPage from './Pages/Cart';
 
 function App() {
 
@@ -59,7 +60,7 @@ function App() {
         <Route path='/' element={<LandingPage />} />
         {
           role ?
-           null :
+            null :
             <>
               <Route path='/register' element={<RegisPage />} />
               <Route path='/login' element={<LoginPage />} />
@@ -67,10 +68,12 @@ function App() {
         }
         {
           role == 'Admin' &&
-            <>
-              <Route path='/products/admin' element={<ProductsAdmin />} />
-            </>
+          <>
+            <Route path='/products/admin' element={<ProductsAdmin />} />
+          </>
         }
+
+        <Route path='/cart' element={<CartPage />} />
         <Route path='/products' element={<Products />} />
         <Route path='/products/detail' element={<DetailPage />} />
         <Route path='*' element={<NotFoundPage />} />
