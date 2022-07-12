@@ -1,17 +1,19 @@
 import React from 'react';
 import { Image, Text } from '@chakra-ui/react';
 import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { API_URL } from '../helper';
 import Axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+import { updateCartAction } from '../actions/userAction';
 
 const DetailPage = (props) => {
 
     const [detail, setDetail] = React.useState(null);
     const [qty, setQty] = React.useState(1);
-
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { id, cart } = useSelector(({ userReducer }) => {
         return {
             id: userReducer.id,
@@ -70,8 +72,9 @@ const DetailPage = (props) => {
             .then((res) => {
                 // 3. Melakukan update data lagi ke reducer
                 console.log(res.data)
+                dispatch(updateCartAction(res.data.cart));
                 // 4. Redirect ke cart page
-
+                navigate('/cart');
             }).catch((err) => {
                 console.log(err);
             })
