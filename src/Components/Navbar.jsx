@@ -6,7 +6,8 @@ import {
     MenuButton,
     MenuList,
     MenuItem,
-    MenuDivider
+    MenuDivider,
+    Badge
 } from '@chakra-ui/react';
 import { AiOutlineLogout } from 'react-icons/ai';
 
@@ -18,11 +19,12 @@ const NavbarComponent = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const { username, status, role } = useSelector((state) => {
+    const { username, status, role, cart } = useSelector((state) => {
         return {
             username: state.userReducer.username,
             status: state.userReducer.status,
             role: state.userReducer.role,
+            cart: state.userReducer.cart
         }
     });
 
@@ -79,7 +81,7 @@ const NavbarComponent = (props) => {
                                                 </div>
                                                 :
                                                 <div>
-                                                    <MenuItem>Cart</MenuItem>
+                                                    <MenuItem>Cart <Badge colorScheme='green'>{cart.length}</Badge> </MenuItem>
                                                     <MenuItem>Profile</MenuItem>
                                                 </div>
 

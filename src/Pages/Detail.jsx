@@ -4,10 +4,20 @@ import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai';
 import { useLocation } from 'react-router-dom';
 import { API_URL } from '../helper';
 import Axios from 'axios';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const DetailPage = (props) => {
 
-    const [detail, setDetail]= React.useState(null)
+    const [detail, setDetail] = React.useState(null);
+    const [qty, setQty] = React.useState(1);
+
+    const { id, cart } = useSelector(({ userReducer }) => {
+        return {
+            id: userReducer.id,
+            cart: userReducer.cart,
+        }
+    })
 
     const { state, search } = useLocation();
     console.table(useLocation())
@@ -25,9 +35,46 @@ const DetailPage = (props) => {
             })
     }
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         getDetail()
-    },[]);
+    }, []);
+
+    const onInc = () => {
+        console.log(state.stock)
+        if (qty < state.stock) {
+            setQty(qty + 1)
+        }
+    }
+
+    const onDec = () => {
+        if (qty > 1) {
+            setQty(qty - 1)
+        }
+    }
+
+    const onBuy = () => {
+        // 1. Menambahkan data product kedalam data keranjang sebelumnya
+        let temp = [...cart];
+        temp.push({
+            idProduct: state.id,
+            images: state.images,
+            name: state.name,
+            brand: state.brand,
+            category: state.category,
+            qty
+        })
+        // 2. Melakukan update data ke db.json
+        axios.patch(API_URL + `/users/${id}`)
+            .then((res) => {
+                // 3. Melakukan update data lagi ke reducer
+                console.log(res.data)
+                // 4. Redirect ke cart page
+
+            }).catch((err) => {
+                console.log(err);
+            })
+
+    }
 
     return <div className='container main-page p-5'>
         <div className='row'>
@@ -56,9 +103,13 @@ const DetailPage = (props) => {
                 <Text fontSize={['4xl', '6xl']} className='text-muted fw-bold'>Rp. {state.price.toLocaleString()}</Text>
                 <div className='d-flex my-4'>
                     <div className='btn-group'>
-                        <button className='btn'><AiFillMinusCircle className='main-color' size={28} /></button>
-                        <Text fontSize='3xl' className='text-muted fw-bold'>1</Text>
-                        <button className='btn'><AiFillPlusCircle className='main-color' size={28} /></button>
+                        <button className='btn' type='button' onClick={onDec}>
+                            <AiFillMinusCircle className='main-color' size={28} />
+                        </button>
+                        <Text fontSize='3xl' className='text-muted fw-bold'>{qty}</Text>
+                        <button className='btn' type='button' onClick={onInc}>
+                            <AiFillPlusCircle className='main-color' size={28} />
+                        </button>
                     </div>
                     <button className='btn btn-outline-primary w-100'>Buy</button>
                 </div>
