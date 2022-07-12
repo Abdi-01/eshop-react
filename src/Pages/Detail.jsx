@@ -55,16 +55,24 @@ const DetailPage = (props) => {
     }
 
     const onBuy = () => {
-        // 1. Menambahkan data product kedalam data keranjang sebelumnya
         let temp = [...cart];
-        temp.push({
-            idProduct: state.id,
-            images: state.images,
-            name: state.name,
-            brand: state.brand,
-            category: state.category,
-            qty
-        })
+        // 1. Memriksa apakah product sudah ada didalam keranjang
+        let idx = temp.findIndex(val => val.idProduct == state.id);
+
+        if (idx >= 0) {
+            temp[idx].qty += 1;
+        } else {
+            // 2. Menambahkan data product kedalam data keranjang sebelumnya
+            temp.push({
+                idProduct: state.id,
+                images: state.images,
+                name: state.name,
+                brand: state.brand,
+                category: state.category,
+                qty
+            })
+        }
+
         // 2. Melakukan update data ke db.json
         axios.patch(API_URL + `/users/${id}`, {
             cart: temp
