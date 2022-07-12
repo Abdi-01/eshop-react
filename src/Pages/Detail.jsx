@@ -64,7 +64,9 @@ const DetailPage = (props) => {
             qty
         })
         // 2. Melakukan update data ke db.json
-        axios.patch(API_URL + `/users/${id}`)
+        axios.patch(API_URL + `/users/${id}`, {
+            cart: temp
+        })
             .then((res) => {
                 // 3. Melakukan update data lagi ke reducer
                 console.log(res.data)
@@ -111,7 +113,7 @@ const DetailPage = (props) => {
                             <AiFillPlusCircle className='main-color' size={28} />
                         </button>
                     </div>
-                    <button className='btn btn-outline-primary w-100'>Buy</button>
+                    <button className='btn btn-outline-primary w-100' type='button' onClick={onBuy}>Buy</button>
                 </div>
             </div>
         </div>

@@ -6,6 +6,13 @@ export const loginAction = (data) => {
     }
 }
 
+export const updateCartAction = (cart) => {
+    return {
+        type: "UPDATE_CART",
+        payload: cart
+    }
+}
+
 export const logoutAction = () => {
     localStorage.removeItem('eshopLog')
     return {

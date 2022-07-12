@@ -13,6 +13,8 @@ export const userReducer = (state = INITIAL_STATE, action) => {
             delete action.payload.password; // menghapus property password dari payload
             console.log("Data dari Action", action);
             return { ...state, ...action.payload };
+        case "UPDATE_CART":
+            return { ...state, cart: action.payload };
         case "UPDATE_STATUS":
             return { ...state, status: action.payload };
         case "LOGOUT_SUCCESS":
