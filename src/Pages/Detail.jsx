@@ -60,7 +60,7 @@ const DetailPage = (props) => {
         let idx = temp.findIndex(val => val.idProduct == state.id);
 
         if (idx >= 0) {
-            temp[idx].qty += 1;
+            temp[idx].qty += qty;
         } else {
             // 2. Menambahkan data product kedalam data keranjang sebelumnya
             temp.push({
