@@ -7,7 +7,10 @@ import Axios from 'axios';
 
 const DetailPage = (props) => {
 
+    const [detail, setDetail]= React.useState(null)
+
     const { state, search } = useLocation();
+    console.table(useLocation())
 
     // console.log('DATA DARI PRODUCTS PAGE', state)
     console.log('DATA DARI URL PRODUCT DETAIL PAGE', search)
@@ -16,6 +19,7 @@ const DetailPage = (props) => {
         Axios.get(API_URL + `/products${search}`)
             .then((res) => {
                 console.log(res.data)
+                setDetail(res.data[0]);
             }).catch((err) => {
                 console.log(err);
             })
