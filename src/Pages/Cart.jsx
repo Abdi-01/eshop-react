@@ -16,9 +16,11 @@ import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai';
 import axios from 'axios';
 import { API_URL } from '../helper';
 import { updateCartAction } from '../actions/userAction';
+import { useNavigate } from 'react-router-dom';
 
 const CartPage = (props) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { id, cart } = useSelector(({ userReducer }) => {
         return {
             id: userReducer.id,
@@ -172,12 +174,23 @@ const CartPage = (props) => {
                 invoice: `#INV/${date.getTime()}`,
                 date: date.toLocaleString(),
                 total_price: totalProductPay(),
-                // ongkir,
+                shipping: selectedShipping.type,
+                ongkir,
                 detail: cart,
                 status: 'UNPAID'
             }
 
-            console.table(data);
+            let resPost = await axios.post(API_URL + '/transactions', data);
+            if (resPost.data.id) {
+                // Data cart user di reset ulang
+                await axios.patch(API_URL + `/users/${id}`, {
+                    cart: []
+                });
+                dispatch(updateCartAction([]));
+                // Redirect ke page transactions user
+                navigate('/transactions')
+
+            }
         } catch (error) {
             console.log(error)
         }
