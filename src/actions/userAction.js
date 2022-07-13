@@ -7,6 +7,7 @@ export const loginAction = (data) => {
 }
 
 export const updateCartAction = (cart) => {
+    console.log('dari ui',cart)
     return {
         type: "UPDATE_CART",
         payload: cart

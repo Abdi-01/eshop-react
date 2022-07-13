@@ -60,7 +60,12 @@ const DetailPage = (props) => {
         let idx = temp.findIndex(val => val.idProduct == state.id);
 
         if (idx >= 0) {
-            temp[idx].qty += qty;
+            let newData = {
+                ...temp[idx]
+            }
+            newData.qty+=1
+            temp.splice(idx, 1, newData);
+    
         } else {
             // 2. Menambahkan data product kedalam data keranjang sebelumnya
             temp.push({

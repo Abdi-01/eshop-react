@@ -13,9 +13,12 @@ import {
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai';
+import axios from 'axios';
+import { API_URL } from '../helper';
+import { updateCartAction } from '../actions/userAction';
 
 const CartPage = (props) => {
-
+    const dispatch = useDispatch();
     const { id, cart } = useSelector(({ userReducer }) => {
         return {
             id: userReducer.id,
@@ -23,17 +26,46 @@ const CartPage = (props) => {
         }
     })
 
-    const onInc = () => {
-        // console.log(state.stock)
-        // if (qty < state.stock) {
-        //     setQty(qty + 1)
-        // }
+    const onInc = (idProduct) => {
+        let temp = [...cart];
+        let idx = cart.findIndex(val => val.idProduct == idProduct);
+        // Menampung data object berdasarkan index yang dipilih
+        let newData = {
+            ...temp[idx]
+        }
+        newData.qty+=1
+        // temp.splice(idx, 1, newData); //Cara 1
+        temp[idx]=newData; // Cara 2
+
+        axios.patch(API_URL + `/users/${id}`, {
+            cart: temp
+        }).then((res) => {
+            console.log('reponse', res.data.cart)
+            dispatch(updateCartAction(res.data.cart));
+        }).catch((err) => {
+            console.log(err)
+        })
     }
 
     const onDec = () => {
         // if (qty > 1) {
         //     setQty(qty - 1)
         // }
+    }
+
+    const onRemove = (idProduct) => {
+        let temp = [...cart];
+        let idx = temp.findIndex(val => val.idProduct == idProduct);
+
+        temp.splice(idx, 1);
+
+        axios.patch(API_URL + `/users/${id}`, {
+            cart: temp
+        }).then((res) => {
+            dispatch(updateCartAction(res.data));
+        }).catch((err) => {
+            console.log(err);
+        })
     }
 
     const printData = () => {
@@ -46,7 +78,7 @@ const CartPage = (props) => {
                     <div className='col-6 d-flex flex-column justify-content-evenly'>
                         <Text fontSize='xl' className='fw-bold p-3'>{val.name}</Text>
                         <Text fontSize='lg' className='main-color p-3'>{val.brand}</Text>
-                        <button className='btn p-3' style={{ textAlign: 'left', width: 'fit-content', color: 'red' }} type='button'>
+                        <button onClick={() => onRemove(val.idProduct)} className='btn p-3' style={{ textAlign: 'left', width: 'fit-content', color: 'red' }} type='button'>
                             Remove
                         </button>
                     </div>
@@ -57,7 +89,7 @@ const CartPage = (props) => {
                             <AiFillMinusCircle className='main-color' size={28} />
                         </button>
                         <Text fontSize='3xl' className='text-muted fw-bold'>{val.qty.toLocaleString()}</Text>
-                        <button className='btn' type='button' onClick={onInc}>
+                        <button className='btn' type='button' onClick={() => onInc(val.idProduct)}>
                             <AiFillPlusCircle className='main-color' size={28} />
                         </button>
                     </div>

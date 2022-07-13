@@ -8,6 +8,7 @@ const INITIAL_STATE = {
 }
 
 export const userReducer = (state = INITIAL_STATE, action) => {
+    console.log("Data dari action", action);
     switch (action.type) {
         case "LOGIN_SUCCESS":
             delete action.payload.password; // menghapus property password dari payload
