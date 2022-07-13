@@ -15,6 +15,7 @@ import { loginAction } from './actions/userAction';
 import DetailPage from './Pages/Detail';
 import NotFoundPage from './Pages/NotFoundPage';
 import CartPage from './Pages/Cart';
+import Transactions from './Pages/Transactions';
 
 function App() {
 
@@ -74,6 +75,7 @@ function App() {
         }
 
         <Route path='/cart' element={<CartPage />} />
+        <Route path='/transactions' element={<Transactions/>} />
         <Route path='/products' element={<Products />} />
         <Route path='/products/detail' element={<DetailPage />} />
         <Route path='*' element={<NotFoundPage />} />
