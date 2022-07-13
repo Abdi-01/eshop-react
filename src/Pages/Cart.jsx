@@ -52,10 +52,29 @@ const CartPage = (props) => {
         }
     }
 
-    const onDec = () => {
-        // if (qty > 1) {
-        //     setQty(qty - 1)
-        // }
+    const onDec = async (idProduct) => {
+        try {
+            let temp = [...cart];
+            let idx = cart.findIndex(val => val.idProduct == idProduct);
+            // Menampung data object berdasarkan index yang dipilih
+            let newData = {
+                ...temp[idx]
+            }
+
+            if (newData.qty > 1) {
+                newData.qty -= 1
+                // temp.splice(idx, 1, newData); //Cara 1
+                temp[idx] = newData; // Cara 2
+
+                let resPatch = await axios.patch(API_URL + `/users/${id}`, {
+                    cart: temp
+                })
+
+                dispatch(updateCartAction(resPatch.data.cart));
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const onRemove = (idProduct) => {
@@ -90,7 +109,7 @@ const CartPage = (props) => {
                 </Td>
                 <Td>
                     <div className='btn-group align-items-center'>
-                        <button className='btn' type='button' onClick={onDec}>
+                        <button className='btn' type='button' onClick={() => onDec(val.idProduct)}>
                             <AiFillMinusCircle className='main-color' size={28} />
                         </button>
                         <Text fontSize='3xl' className='text-muted fw-bold'>{val.qty.toLocaleString()}</Text>
@@ -122,7 +141,7 @@ const CartPage = (props) => {
             </p>
         </div>
         <div className='row my-3' >
-            <div className='col-12 col-sm-9 p-3'>
+            <div className='col-12 col-md-9 p-3'>
                 <TableContainer>
                     <Table variant='simple'>
                         <Thead>
@@ -139,7 +158,7 @@ const CartPage = (props) => {
                     </Table>
                 </TableContainer>
             </div>
-            <div className='col-12 col-sm-3 bg-light p-3 shadow'>
+            <div className='col-12 col-md-3 bg-light p-3 shadow'>
                 <Text fontSize="2xl" className='fw-bold text-muted'>Order Summary</Text>
                 <hr className='my-3' />
                 <div className='d-flex justify-content-between'>
