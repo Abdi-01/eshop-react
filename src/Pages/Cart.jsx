@@ -27,6 +27,7 @@ const CartPage = (props) => {
     })
 
     const [selectedShipping, setSelectedShipping] = React.useState(null);
+    const [ongkir, setOngkir] = React.useState(0);
     const [shipping, setShipping] = React.useState([
         {
             id: 1,
@@ -48,6 +49,7 @@ const CartPage = (props) => {
     const onShipping = (idShipping) => {
         let select = shipping.filter(val => val.id == idShipping);
         setSelectedShipping(select[0]);
+        setOngkir(select[0].pay * totalProductPay());
     }
 
     const printShipping = () => {
@@ -214,7 +216,7 @@ const CartPage = (props) => {
                     <Text fontSize="xl" className='fw-bold text-muted'>Rp. {totalProductPay().toLocaleString()}</Text>
                 </div>
                 <Text fontSize="xl" className='fw-bold text-muted my-3'>SHIPPING</Text>
-                <select className='form-select' onChange={(e) => setSelectedShipping(e.target.value)}>
+                <select className='form-select' onChange={(e) => onShipping(e.target.value)}>
                     <option selected>Select shipping</option>
                     {
                         printShipping()
@@ -228,7 +230,7 @@ const CartPage = (props) => {
                 <hr className='my-3' />
                 <div className='d-flex justify-content-between'>
                     <Text fontSize="xl" className='fw-bold text-muted'>TOTAL COST</Text>
-                    <Text fontSize="xl" className='fw-bold text-muted'>Rp. {totalProductPay().toLocaleString()}</Text>
+                    <Text fontSize="xl" className='fw-bold text-muted'>Rp. {(totalProductPay() + ongkir).toLocaleString()}</Text>
                 </div>
                 <button className='btn btn-primary my-3 w-100' type='button' onClick={onCheckout}>
                     Checkout
