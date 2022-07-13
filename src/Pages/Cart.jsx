@@ -26,7 +26,28 @@ const CartPage = (props) => {
         }
     })
 
-    const [ongkir, setOngkir] = React.useState(0);
+    const [selectedShipping, setSelectedShipping] = React.useState('');
+    const [shipping, setShipping] = React.useState([
+        {
+            id: 1,
+            type: 'Reguler',
+            pay: 0.05
+        },
+        {
+            id: 2,
+            type: 'Next Day',
+            pay: 0.075
+        },
+        {
+            id: 3,
+            type: 'Same Day',
+            pay: 0.1
+        }
+    ]);
+
+    const printShipping = () => {
+        return shipping.map((val, idx) => <option value={val.id} key={val.id}>{val.type} - Rp. {(totalProductPay() * val.pay).toLocaleString()}</option>)
+    }
 
     const onInc = async (idProduct) => {
         try {
@@ -190,24 +211,9 @@ const CartPage = (props) => {
                 <Text fontSize="xl" className='fw-bold text-muted my-3'>SHIPPING</Text>
                 <select className='form-select'>
                     <option selected>Select shipping</option>
-                    <option value={{
-                        type: 'Reguler',
-                        price: totalProductPay() * 0.05
-                    }}>
-                        Reguler - Rp. {(totalProductPay() * 0.05).toLocaleString()}
-                    </option>
-                    <option value={{
-                        type: 'Next Day',
-                        price: totalProductPay() * 0.075
-                    }}>
-                        Next Day - Rp. {(totalProductPay() * 0.075).toLocaleString()}
-                    </option>
-                    <option value={{
-                        type: 'Reguler',
-                        price: totalProductPay() * 0.1
-                    }}>
-                        Same Day - Rp. {(totalProductPay() * 0.1).toLocaleString()}
-                    </option>
+                    <option value='Reguler'>Reguler - Rp. {(totalProductPay() * 0.05).toLocaleString()}</option>
+                    <option value='Next Day'>Next Day - Rp. {(totalProductPay() * 0.075).toLocaleString()}</option>
+                    <option value='Same Day'>Same Day - Rp. {(totalProductPay() * 0.1).toLocaleString()}</option>
                 </select>
                 <Text fontSize="xl" className='fw-bold text-muted my-3'>PROMO CODE</Text>
                 <input className='form-control m-auto' type='text' placeholder='Enter your code' />
