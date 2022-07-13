@@ -26,6 +26,8 @@ const CartPage = (props) => {
         }
     })
 
+    const [ongkir, setOngkir] = React.useState(0);
+
     const onInc = async (idProduct) => {
         try {
             let temp = [...cart];
@@ -133,6 +135,26 @@ const CartPage = (props) => {
         return total;
     }
 
+    const onCheckout = async () => {
+        try {
+            // idUser, invoice, date, total_price, ongkir, detail, status
+            let date = new Date();
+            let data = {
+                idUser: id,
+                invoice: `#INV/${date.getTime()}`,
+                date: date.toLocaleString(),
+                total_price: totalProductPay(),
+                ongkir,
+                detail: cart,
+                status: 'UNPAID'
+            }
+
+            console.table(data);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return <div className='container main-page'>
         <div>
             <Text fontSize="4xl" className='fw-bold text-muted'>Shopping Cart</Text>
@@ -168,9 +190,24 @@ const CartPage = (props) => {
                 <Text fontSize="xl" className='fw-bold text-muted my-3'>SHIPPING</Text>
                 <select className='form-select'>
                     <option selected>Select shipping</option>
-                    <option value='Reguler'>Reguler - Rp. {(totalProductPay() * 0.05).toLocaleString()}</option>
-                    <option value='Next Day'>Next Day - Rp. {(totalProductPay() * 0.075).toLocaleString()}</option>
-                    <option value='Same Day'>Same Day - Rp. {(totalProductPay() * 0.1).toLocaleString()}</option>
+                    <option value={{
+                        type: 'Reguler',
+                        price: totalProductPay() * 0.05
+                    }}>
+                        Reguler - Rp. {(totalProductPay() * 0.05).toLocaleString()}
+                    </option>
+                    <option value={{
+                        type: 'Next Day',
+                        price: totalProductPay() * 0.075
+                    }}>
+                        Next Day - Rp. {(totalProductPay() * 0.075).toLocaleString()}
+                    </option>
+                    <option value={{
+                        type: 'Reguler',
+                        price: totalProductPay() * 0.1
+                    }}>
+                        Same Day - Rp. {(totalProductPay() * 0.1).toLocaleString()}
+                    </option>
                 </select>
                 <Text fontSize="xl" className='fw-bold text-muted my-3'>PROMO CODE</Text>
                 <input className='form-control m-auto' type='text' placeholder='Enter your code' />
@@ -182,7 +219,7 @@ const CartPage = (props) => {
                     <Text fontSize="xl" className='fw-bold text-muted'>TOTAL COST</Text>
                     <Text fontSize="xl" className='fw-bold text-muted'>Rp. {totalProductPay().toLocaleString()}</Text>
                 </div>
-                <button className='btn btn-primary my-3 w-100' type='button'>
+                <button className='btn btn-primary my-3 w-100' type='button' onClick={onCheckout}>
                     Checkout
                 </button>
             </div>
