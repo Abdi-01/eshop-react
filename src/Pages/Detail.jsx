@@ -69,6 +69,7 @@ const DetailPage = (props) => {
                 name: state.name,
                 brand: state.brand,
                 category: state.category,
+                price: state.price,
                 qty
             })
         }

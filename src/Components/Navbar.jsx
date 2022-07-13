@@ -81,7 +81,7 @@ const NavbarComponent = (props) => {
                                                 </div>
                                                 :
                                                 <div>
-                                                    <MenuItem>Cart <Badge colorScheme='green'>{cart.length}</Badge> </MenuItem>
+                                                    <MenuItem onClick={() => navigate('/cart')}>Cart <Badge colorScheme='green'>{cart.length}</Badge> </MenuItem>
                                                     <MenuItem>Profile</MenuItem>
                                                 </div>
 
