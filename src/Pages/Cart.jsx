@@ -26,7 +26,7 @@ const CartPage = (props) => {
         }
     })
 
-    const [selectedShipping, setSelectedShipping] = React.useState('');
+    const [selectedShipping, setSelectedShipping] = React.useState(null);
     const [shipping, setShipping] = React.useState([
         {
             id: 1,
@@ -44,6 +44,11 @@ const CartPage = (props) => {
             pay: 0.1
         }
     ]);
+
+    const onShipping = (idShipping) => {
+        let select = shipping.filter(val => val.id == idShipping);
+        setSelectedShipping(select[0]);
+    }
 
     const printShipping = () => {
         return shipping.map((val, idx) => <option value={val.id} key={val.id}>{val.type} - Rp. {(totalProductPay() * val.pay).toLocaleString()}</option>)
@@ -165,7 +170,7 @@ const CartPage = (props) => {
                 invoice: `#INV/${date.getTime()}`,
                 date: date.toLocaleString(),
                 total_price: totalProductPay(),
-                ongkir,
+                // ongkir,
                 detail: cart,
                 status: 'UNPAID'
             }
@@ -209,11 +214,11 @@ const CartPage = (props) => {
                     <Text fontSize="xl" className='fw-bold text-muted'>Rp. {totalProductPay().toLocaleString()}</Text>
                 </div>
                 <Text fontSize="xl" className='fw-bold text-muted my-3'>SHIPPING</Text>
-                <select className='form-select'>
+                <select className='form-select' onChange={(e) => setSelectedShipping(e.target.value)}>
                     <option selected>Select shipping</option>
-                    <option value='Reguler'>Reguler - Rp. {(totalProductPay() * 0.05).toLocaleString()}</option>
-                    <option value='Next Day'>Next Day - Rp. {(totalProductPay() * 0.075).toLocaleString()}</option>
-                    <option value='Same Day'>Same Day - Rp. {(totalProductPay() * 0.1).toLocaleString()}</option>
+                    {
+                        printShipping()
+                    }
                 </select>
                 <Text fontSize="xl" className='fw-bold text-muted my-3'>PROMO CODE</Text>
                 <input className='form-control m-auto' type='text' placeholder='Enter your code' />
