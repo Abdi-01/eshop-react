@@ -33,18 +33,27 @@ const CartPage = (props) => {
         let newData = {
             ...temp[idx]
         }
-        newData.qty+=1
-        // temp.splice(idx, 1, newData); //Cara 1
-        temp[idx]=newData; // Cara 2
 
-        axios.patch(API_URL + `/users/${id}`, {
-            cart: temp
-        }).then((res) => {
-            console.log('reponse', res.data.cart)
-            dispatch(updateCartAction(res.data.cart));
-        }).catch((err) => {
-            console.log(err)
-        })
+        axios.get(API_URL + `/products?id=${idProduct}`)
+            .then((resGet) => {
+                if (newData.qty < resGet.data[0].stock) {
+                    newData.qty += 1
+                    // temp.splice(idx, 1, newData); //Cara 1
+                    temp[idx] = newData; // Cara 2
+
+                    axios.patch(API_URL + `/users/${id}`, {
+                        cart: temp
+                    }).then((res) => {
+                        console.log('reponse', res.data.cart)
+                        dispatch(updateCartAction(res.data.cart));
+                    }).catch((err) => {
+                        console.log(err)
+                    })
+                }
+            }).catch((errGet) => {
+                console.log(errGet);
+            })
+
     }
 
     const onDec = () => {
