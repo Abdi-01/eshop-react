@@ -81,16 +81,18 @@ const ProductsAdmin = () => {
     }
 
     const onSubmit = () => {
-        Axios.post(API_URL + "/products", {
+        let formData = new FormData();
+        formData.append('data', JSON.stringify({
             name,
             description,
             brand,
             category,
-            price,
             stock,
-            images: img
-        }).then((res) => {
-            if (res.data.id) {
+            price
+        }));
+        formData.append('images', img);
+        Axios.post(API_URL + "/products", formData).then((res) => {
+            if (res.data.success) {
                 toast({
                     title: "Product submitted",
                     description: `${name} your new product`,
@@ -189,7 +191,7 @@ const ProductsAdmin = () => {
                         <div className='col-12 col-md-6'>
                             <label className="form-label fw-bold text-muted">Image</label>
                             <Image className='shadow-sm' boxSize='100% 50%' margin='auto' objectFit='cover' src={img} fallbackSrc='https://media.istockphoto.com/vectors/image-preview-icon-picture-placeholder-for-website-or-uiux-design-vector-id1222357475?k=20&m=1222357475&s=612x612&w=0&h=jPhUdbj_7nWHUp0dsKRf4DMGaHiC16kg_FSjRRGoZEI=' alt='add-product' />
-                            <input className='form-control m-auto' onChange={(e) => setImg(e.target.value)} type='text' placeholder='URL image' />
+                            <input className='form-control m-auto' onChange={(e) => setImg(e.target.files[0])} type='file' placeholder='URL image' />
                             <label className="form-label fw-bold text-muted">Product Name</label>
                             <input className='form-control m-auto' onChange={(e) => setName(e.target.value)} type='text' />
                         </div>

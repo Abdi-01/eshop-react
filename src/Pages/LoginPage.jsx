@@ -15,11 +15,14 @@ const LoginPage = () => {
     const [password, setPassword] = React.useState('');
 
     const onLogin = () => {
-        Axios.get(API_URL + `/users?email=${email}&password=${password}`)
+        Axios.post(API_URL + `/auth/login`,{
+            email,
+            password
+        })
             .then((res) => {
                 console.log(res.data);
-                localStorage.setItem('eshopLog', res.data[0].id);
-                dispatch(loginAction(res.data[0]));
+                localStorage.setItem('eshopLog', res.data.iduser);
+                dispatch(loginAction(res.data));
                 navigate('/', { replace: true });
             }).catch((err) => {
                 console.log(err);

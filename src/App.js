@@ -32,12 +32,12 @@ function App() {
   const keepLogin = () => {
     let eshopLog = localStorage.getItem('eshopLog');
     if (eshopLog) {
-      Axios.get(API_URL + `/users?id=${eshopLog}`)
+      Axios.get(API_URL + `/auth/keep?id=${eshopLog}`)
         .then((res) => {
-          if (res.data.length > 0) {
-            localStorage.setItem('eshopLog', res.data[0].id)
+          if (res.data.iduser) {
+            localStorage.setItem('eshopLog', res.data.iduser)
             setLoading(false);
-            dispatch(loginAction(res.data[0]));
+            dispatch(loginAction(res.data));
           }
         }).catch((err) => {
           console.log(err);

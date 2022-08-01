@@ -5,6 +5,7 @@ import Axios from 'axios';
 import { API_URL } from '../helper';
 import { useToast } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 const RegisPage = (props) => {
 
     const [username, setUsername] = React.useState('');
@@ -13,20 +14,23 @@ const RegisPage = (props) => {
     const [visible, setVisible] = React.useState('password');
 
     const toast = useToast();
+    const navigate = useNavigate();
 
     const onRegis = () => {
-        Axios.post(API_URL + "/users", {
+        Axios.post(API_URL + "/auth/regis", {
             username,
             email,
-            password,
-            role: "user",
-            status: "Unverified"
+            password
         }).then((res) => {
             console.log(res.data);
-            if (res.data.id) {
+            if (res.data.success) {
+                setUsername('')
+                setEmail('')
+                setPassword('')
+                navigate('/');
                 toast({
                     title: "Acoount created",
-                    description: `Welcome to E-SHOP ${res.data.username}`,
+                    description: `Welcome to E-SHOP`,
                     status: "success",
                     duration: 3000,
                     isClosable: true
