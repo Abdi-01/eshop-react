@@ -21,7 +21,8 @@ const LoginPage = () => {
         })
             .then((res) => {
                 console.log(res.data);
-                localStorage.setItem('eshopLog', res.data.iduser);
+                localStorage.setItem('eshopLog', res.data.token);
+                delete res.data.token;
                 dispatch(loginAction(res.data));
                 navigate('/', { replace: true });
             }).catch((err) => {

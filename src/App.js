@@ -32,10 +32,15 @@ function App() {
   const keepLogin = () => {
     let eshopLog = localStorage.getItem('eshopLog');
     if (eshopLog) {
-      Axios.get(API_URL + `/auth/keep?id=${eshopLog}`)
+      Axios.get(API_URL + `/auth/keep`, {
+        headers: {
+          'Authorization': `Bearer ${eshopLog}`
+        }
+      })
         .then((res) => {
           if (res.data.iduser) {
-            localStorage.setItem('eshopLog', res.data.iduser)
+            localStorage.setItem('eshopLog', res.data.token);
+            delete res.data.token;
             setLoading(false);
             dispatch(loginAction(res.data));
           }
@@ -75,7 +80,7 @@ function App() {
         }
 
         <Route path='/cart' element={<CartPage />} />
-        <Route path='/transactions' element={<Transactions/>} />
+        <Route path='/transactions' element={<Transactions />} />
         <Route path='/products' element={<Products />} />
         <Route path='/products/detail' element={<DetailPage />} />
         <Route path='*' element={<NotFoundPage />} />
