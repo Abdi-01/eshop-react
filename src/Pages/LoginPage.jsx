@@ -4,8 +4,8 @@ import { AiOutlineEye } from 'react-icons/ai'
 import Axios from 'axios';
 import { API_URL } from '../helper';
 import { useNavigate } from 'react-router-dom';
-import { loginAction } from '../actions/userAction';
-import { useDispatch } from 'react-redux';
+import { loginAction, loginMiddleware } from '../actions/userAction';
+import { useDispatch, useSelector } from 'react-redux';
 const LoginPage = () => {
 
     const navigate = useNavigate();
@@ -14,20 +14,11 @@ const LoginPage = () => {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
-    const onLogin = () => {
-        Axios.post(API_URL + `/auth/login`,{
-            email,
-            password
-        })
-            .then((res) => {
-                console.log(res.data);
-                localStorage.setItem('eshopLog', res.data.token);
-                delete res.data.token;
-                dispatch(loginAction(res.data));
-                navigate('/', { replace: true });
-            }).catch((err) => {
-                console.log(err);
-            })
+    const onLogin = async () => {
+        let res = await dispatch(loginMiddleware(email, password));
+        if (res.success) {
+            navigate('/', { replace: true });
+        }
     }
 
     return <div id='loginpage'>
