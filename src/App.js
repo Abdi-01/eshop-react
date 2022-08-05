@@ -16,6 +16,7 @@ import DetailPage from './Pages/Detail';
 import NotFoundPage from './Pages/NotFoundPage';
 import CartPage from './Pages/Cart';
 import Transactions from './Pages/Transactions';
+import VerificationPage from './Pages/Verification';
 
 function App() {
 
@@ -83,6 +84,7 @@ function App() {
         <Route path='/transactions' element={<Transactions />} />
         <Route path='/products' element={<Products />} />
         <Route path='/products/detail' element={<DetailPage />} />
+        <Route path='/verification/:token' element={<VerificationPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
       <FooterComponent />

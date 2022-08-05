@@ -93,7 +93,7 @@ const NavbarComponent = (props) => {
                                 </Menu>
                                 :
                                 <div className='btn-group'>
-                                    <button className='btn btn-outline-light' type='button'
+                                    <button className='btn btn-light' type='button' style={{border:'1px solid gray'}}
                                         onClick={() => navigate('/login')}
                                     >
                                         Sign In
