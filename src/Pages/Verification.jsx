@@ -10,21 +10,26 @@ const VerificationPage = (props) => {
     const params = useParams(); // mengambil value url params dari routing front-end
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    // Fungsi untuk button verifikasi
     const handleVerified = async () => {
-        console.log(params)
+        console.log(params); // memeriksa value params
         try {
+            // Request ke API middleware Verification
+            // Req.method patch
             let res = await Axios.patch(`${API_URL}/auth/verified`, {}, {
                 headers: {
                     'Authorization': `Bearer ${params.token}`
                 }
             })
-            console.log(res.data)
+            // Memeriksa response
+            console.log(res.data);
 
-            if (res.data.success) {
-                localStorage.setItem('eshopLog', res.data.dataLogin.token);
-                delete res.data.dataLogin.token;
-                dispatch(loginAction(res.data.dataLogin))
-                navigate('/', { replace: true });
+            if (res.data.success) { // Jika success maka auto login
+                localStorage.setItem('eshopLog', res.data.dataLogin.token); // token disimpan ke localStorage
+                delete res.data.dataLogin.token; // properti token dihapus
+                dispatch(loginAction(res.data.dataLogin)); // data user disimpan ke reducer
+                navigate('/', { replace: true }); // redirect ke landing page
             }else{
                 alert('Verification failed ❌')
             }
