@@ -31,7 +31,7 @@ const Products = (props) => {
                     state: val
                 })}>
                 <div className='card border-0 shadow rounded-3 btn p-0'>
-                    <Image src={API_URL + val.images} boxSize='100%' objectFit='cover' alt={val.name} />
+                    <Image src={val.images.includes('https')? val.images : API_URL + val.images} boxSize='100%' objectFit='cover' alt={val.name} />
                 </div>
                 <div className='card shadow bg-primary m-auto text-center py-2 position-relative' style={{ width: '80%', top: '-45px' }}>
                     <Text fontSize="xl" className='fw-bold text-white'>Rp. {val.price.toLocaleString()}</Text>
