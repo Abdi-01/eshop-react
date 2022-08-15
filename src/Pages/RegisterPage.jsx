@@ -90,9 +90,11 @@ const RegisPage = (props) => {
                     <div className='text-center text-muted'>
                         <span>or</span>
                     </div>
-                    <button className='btn btn-light py-2 text-muted mt-2 w-100 shadow'>
+                    <button
+                        onClick={() => window.open(`${API_URL}/auth/google`, '_blank').focus()}
+                        className='btn btn-light py-2 text-muted mt-2 w-100 shadow'>
                         <div className='d-flex justify-content-center align-items-center'>
-                            <FcGoogle size={36} className="me-2"/> <span> Sign up with Google</span>
+                            <FcGoogle size={36} className="me-2" /> <span> Sign up with Google</span>
                         </div>
                     </button>
                 </div>
