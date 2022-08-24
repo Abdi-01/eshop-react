@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [14.x]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -34,7 +34,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Build Project
         run: |
-            npm install --force
+            npm install
             npm run build
 
       # STEP for COPY BUILD file project to NGINX
