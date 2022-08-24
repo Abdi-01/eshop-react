@@ -34,7 +34,6 @@ jobs:
       - name: Build Project
         run: |
             npm install
-            npm run build
 
       # STEP for COPY BUILD file project to NGINX
       # - name: Deploy ESHOP-REACT
