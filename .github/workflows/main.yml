@@ -20,8 +20,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
-
       # STEP BUILD REACT
       - name: Checkout Repo
         uses: actions/checkout@v2
@@ -33,7 +31,9 @@ jobs:
       
       - name: Build Project
         run: |
+            npm cache clean --force
             npm install
+            CI='' npm run build
 
       # STEP for COPY BUILD file project to NGINX
       # - name: Deploy ESHOP-REACT
