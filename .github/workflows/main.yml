@@ -8,9 +8,6 @@ on:
   push:
     branches: [ "main" ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -19,31 +16,33 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
 
       # STEP BUILD REACT
-      - name: BUILD CLIENT REACT APP
+      - name: Checkout Repo
         uses: actions/checkout@v2
+      
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      
       - name: Build Project
         run: |
             npm install
             npm run build
 
       # STEP for COPY BUILD file project to NGINX
-      - name: Deploy ESHOP-REACT
-        uses: nogsantos/scp-deploy@master
-        with:
-          src: ./build/*
-          host: ${{secrets.SSH_HOST}}
-          remote: "/var/www/html"
-          port: ${{secrets.SSH_PORT}}
-          username: ${{secrets.SSH_USER}}
-          key: ${{secrets.SSH_KEY}}
+      # - name: Deploy ESHOP-REACT
+      #   uses: nogsantos/scp-deploy@master
+      #   with:
+      #     src: ./build/*
+      #     host: ${{secrets.SSH_HOST}}
+      #     remote: "/var/www/html"
+      #     port: ${{secrets.SSH_PORT}}
+      #     username: ${{secrets.SSH_USER}}
+      #     key: ${{secrets.SSH_KEY}}
