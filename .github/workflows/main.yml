@@ -35,13 +35,13 @@ jobs:
             npm install
             CI='' npm run build
 
-      # STEP for COPY BUILD file project to NGINX
-      # - name: Deploy ESHOP-REACT
-      #   uses: nogsantos/scp-deploy@master
-      #   with:
-      #     src: ./build/*
-      #     host: ${{secrets.SSH_HOST}}
-      #     remote: "/var/www/html"
-      #     port: ${{secrets.SSH_PORT}}
-      #     username: ${{secrets.SSH_USER}}
-      #     key: ${{secrets.SSH_KEY}}
+      STEP for COPY BUILD file project to NGINX
+      - name: Deploy ESHOP-REACT
+        uses: nogsantos/scp-deploy@master
+        with:
+          src: ./build/*
+          host: ${{secrets.SSH_HOST}}
+          remote: "/var/www/html"
+          port: ${{secrets.SSH_PORT}}
+          username: ${{secrets.SSH_USER}}
+          key: ${{secrets.SSH_KEY}}
