@@ -23,19 +23,19 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       # STEP BUILD REACT
       - name: BUILD CLIENT REACT APP
         uses: actions/checkout@v2
-      - name: Use node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: ${{matrix.node-version}}
-      - name: Build RUN
+          node-version: ${{ matrix.node-version }}
+      - name: Build Project
         run: |
-          npm install
-          npm run build
+            npm install --force
+            npm run build
 
       # STEP for COPY BUILD file project to NGINX
       - name: Deploy ESHOP-REACT
