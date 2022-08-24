@@ -35,7 +35,7 @@ jobs:
             npm install
             CI='' npm run build
 
-      STEP for COPY BUILD file project to NGINX
+      # STEP for COPY BUILD file project to NGINX
       - name: Deploy ESHOP-REACT
         uses: nogsantos/scp-deploy@master
         with:
